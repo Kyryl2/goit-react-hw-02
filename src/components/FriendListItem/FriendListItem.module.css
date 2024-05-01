@@ -1,0 +1,22 @@
+.thumb {
+  width: 100%;
+}
+.img {
+  width: 100px;
+  height: 100px;
+}
+.title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+.sub_title {
+  margin: 0;
+  font-size: 20px;
+}
+.is_online {
+  color: green;
+}
+.is_offline {
+  color: red;
+}
