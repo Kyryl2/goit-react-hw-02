@@ -7,7 +7,7 @@ import { Notification } from "./Notification/Notification";
 const App = () => {
   const [feedback, setFeedback] = useState(() => {
     const savedInfo = window.localStorage.getItem("saved");
-    console.log(savedInfo);
+
     if (savedInfo !== null) {
       return JSON.parse(savedInfo);
     }
