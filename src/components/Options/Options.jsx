@@ -1,10 +1,26 @@
-const Options = (updateFeedback) => {
+import s from "./Options.module.css";
+
+const Options = ({ updateFeedback, feedback, total, onReset }) => {
   return (
     <div>
-      <button onClick={() => updateFeedback("good")}>Good</button>
-      <button onClick={() => updateFeedback("neutral")}>Neutral</button>
-      <button onClick={() => updateFeedback("bad")}>Bad</button>
-      {/* <button onClick={}>Reset</button>  */}
+      <ul className={s.list}>
+        {Object.keys(feedback).map((item) => {
+          return (
+            <li className={s.item} key={item}>
+              <button className={s.btn} onClick={() => updateFeedback(item)}>
+                {item}
+              </button>
+            </li>
+          );
+        })}
+        {total > 0 && (
+          <li>
+            <button className={s.btn} onClick={onReset}>
+              reset
+            </button>
+          </li>
+        )}
+      </ul>
     </div>
   );
 };

@@ -13,13 +13,45 @@ const App = () => {
   const updateFeedback = (feedbackType) => {
     setFeedback({ ...feedback, [feedbackType]: feedback[feedbackType] + 1 });
   };
-  console.log(feedback);
+
+  const onReset = () => {
+    setFeedback({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
+  const totalFeedback = () => {
+    return Object.values(feedback).reduce((acc, item) => {
+      return acc + item;
+    }, 0);
+  };
+  const total = totalFeedback();
+
+  const positiveFeedback = () => {
+    const goodCount = feedback.good;
+    if (!total) {
+      return 0;
+    }
+    return Math.round((goodCount / total) * 100);
+  };
+  const positive = positiveFeedback();
 
   return (
     <div>
       <Description />
-      <Options updateFeedback={updateFeedback} />
-      <Feedback data={feedback} />
+      <Options
+        onReset={onReset}
+        feedback={feedback}
+        updateFeedback={updateFeedback}
+        total={total}
+      />
+
+      {total ? (
+        <Feedback positive={positive} total={total} data={feedback} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
