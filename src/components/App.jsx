@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Description from "./Description/Description";
 import Options from "./Options/Options";
 import Feedback from "./Feedback/Feedback";
+import { Notification } from "./Notification/Notification";
 
 const App = () => {
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const [feedback, setFeedback] = useState(() => {
+    const savedInfo = window.localStorage.getItem("saved");
+    console.log(savedInfo);
+    if (savedInfo !== null) {
+      return JSON.parse(savedInfo);
+    }
+    return {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    };
   });
+
+  useEffect(() => {
+    window.localStorage.setItem("saved", JSON.stringify(feedback));
+  }, [feedback]);
 
   const updateFeedback = (feedbackType) => {
     setFeedback({ ...feedback, [feedbackType]: feedback[feedbackType] + 1 });
@@ -21,12 +33,13 @@ const App = () => {
       bad: 0,
     });
   };
-  const totalFeedback = () => {
-    return Object.values(feedback).reduce((acc, item) => {
-      return acc + item;
-    }, 0);
-  };
-  const total = totalFeedback();
+  // const totalFeedback = () => {
+  //   return Object.values(feedback).reduce((acc, item) => {
+  //     return acc + item;
+  //   }, 0);
+  // };
+  // const total = totalFeedback();
+  const total = feedback.good + feedback.neutral + feedback.bad;
 
   const positiveFeedback = () => {
     const goodCount = feedback.good;
@@ -50,7 +63,7 @@ const App = () => {
       {total ? (
         <Feedback positive={positive} total={total} data={feedback} />
       ) : (
-        <></>
+        <Notification />
       )}
     </div>
   );
