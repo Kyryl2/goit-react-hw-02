@@ -4,20 +4,26 @@ import Options from "./Options/Options";
 import Feedback from "./Feedback/Feedback";
 import { Notification } from "./Notification/Notification";
 
+const data = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
+
 const App = () => {
-  const [feedback, setFeedback] = useState(() => {
-    const savedInfo = window.localStorage.getItem("saved");
+  // **Variant 1**
+  // const [feedback, setFeedback] = useState(() => {
+  //   const savedInfo = window.localStorage.getItem("saved");
 
-    if (savedInfo !== null) {
-      return JSON.parse(savedInfo);
-    }
-    return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
-  });
-
+  //   if (savedInfo !== null) {
+  //     return JSON.parse(savedInfo);
+  //   }
+  //   return data
+  // });
+  // **Variant 2**
+  const [feedback, setFeedback] = useState(
+    () => JSON.parse(window.localStorage.getItem("saved")) || data
+  );
   useEffect(() => {
     window.localStorage.setItem("saved", JSON.stringify(feedback));
   }, [feedback]);
